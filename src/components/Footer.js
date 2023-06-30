@@ -1,14 +1,14 @@
 const Footer = () => {
   const footerStyle = {
-    color: 'green',
-    fontStyle: 'italic',
-    fontSize: 16
+    color: '#ccc',
+    fontSize: 14,
+    opacity: 0.5,
+    marginTop: 16,
   }
 
   return (
     <div style={footerStyle}>
-      <br />
-      <em>Note app, Department of Computer Science, University of Helsinki 2023</em>
+      Note app, Department of Computer Science, University of Helsinki 2023
     </div>
   )
 }
