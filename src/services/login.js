@@ -26,5 +26,9 @@ const login = async (credentials) => {
   return response.data
 }
 
+const logout = () => {
+  window.localStorage.removeItem('loggedNoteappUser')
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { login, setToken, create, update }
+export default { login, setToken, create, update, logout }

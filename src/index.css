@@ -18,8 +18,30 @@ body * + * {
 }
 
 h1 {
-  color: rgb(220, 255, 220);
+  font-size: 4rem;
+  background: -webkit-linear-gradient(91deg, #09009f, #00ff95 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-transform: uppercase;
+}
+
+form > div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+}
+
+form input {
+  display: inline-block;
+  height: 1.5rem;
+  border: none;
+  padding: 0.5em;
+  width: 30%;
+}
+
+button {
+  padding: 0.25rem 0.5rem;
+  border: none;
 }
 
 .note {
