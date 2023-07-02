@@ -6,13 +6,21 @@ const getAll = () => {
   return request.then((response) => response.data)
 }
 
-const create = (newObject) => {
-  const request = axios.post(baseUrl, newObject)
+const create = (newObject, token) => {
+  const request = axios.post(baseUrl, newObject, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
   return request.then((response) => response.data)
 }
 
-const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
+const update = (id, newObject, token) => {
+  const request = axios.put(`${baseUrl}/${id}`, newObject, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
   return request.then((response) => response.data)
 }
 
