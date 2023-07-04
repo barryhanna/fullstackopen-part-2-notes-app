@@ -8,23 +8,27 @@ const NoteForm = ({ addNote }) => {
   }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        addNote(e.target.note.value)
-        setNewNote('')
-      }}
-    >
-      <div>
+    <div className="formDiv">
+      <h2>Create a new note</h2>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          addNote(e.target.note.value)
+          setNewNote('')
+        }}
+      >
         <input
           value={newNote}
           id="note"
           name="note"
           onChange={handleNoteChange}
+          placeholder="write note content here"
         />
-        <button type="submit">Save</button>
-      </div>
-    </form>
+        <button id="saveNote" type="submit">
+          save
+        </button>
+      </form>
+    </div>
   )
 }
 
