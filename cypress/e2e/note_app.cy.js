@@ -26,6 +26,15 @@ describe('Note ', function () {
     cy.contains('Matti Luukkainen logged in')
   })
 
+  it.only('login fails with wrong password', function () {
+    cy.contains('Login').click()
+    cy.get('#username').type('mluukkai')
+    cy.get('#password').type('wrong')
+    cy.get('#login-button').click()
+
+    cy.get('.error').should('contain', 'Wrong credentials')
+  })
+
   describe('when logged in', function () {
     beforeEach(function () {
       cy.contains('Login').click()
