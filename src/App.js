@@ -9,7 +9,7 @@ import loginService from './services/login'
 import NoteForm from './components/NoteForm'
 
 const App = () => {
-  const [notes, setNotes] = useState([])
+  // const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
