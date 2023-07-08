@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
 import LoginForm from './components/LoginForm'
@@ -7,14 +6,20 @@ import Togglable from './components/Togglable'
 import noteService from './services/notes'
 import loginService from './services/login'
 import NoteForm from './components/NoteForm'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import Notes from './components/Notes'
 
 const App = () => {
-  // const [notes, setNotes] = useState([])
+  const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
 
   const noteFormRef = useRef()
+
+  const padding = {
+    padding: 5,
+  }
 
   useEffect(() => {
     noteService.getAll().then((initialNotes) => {
@@ -81,7 +86,32 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Router>
+      <div>
+        <Link style={padding} to="/">
+          Home
+        </Link>
+        <Link style={padding} to="/notes">
+          Notes
+        </Link>
+        <Link style={padding} to="/users">
+          Users
+        </Link>
+      </div>
+
+      <Routes>
+        <Route
+          path="/notes"
+          element={
+            <Notes
+              notesToShow={notesToShow}
+              showAll={showAll}
+              setShowAll={setShowAll}
+              toggleImportanceOf={toggleImportanceOf}
+            />
+          }
+        />
+      </Routes>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
 
@@ -110,24 +140,8 @@ const App = () => {
         </div>
       )}
 
-      <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all'}
-        </button>
-      </div>
-      <ul>
-        <ul>
-          {notesToShow.map((note) => (
-            <Note
-              key={note.id}
-              note={note}
-              toggleImportance={() => toggleImportanceOf(note.id)}
-            />
-          ))}
-        </ul>
-      </ul>
       <Footer />
-    </div>
+    </Router>
   )
 }
 
