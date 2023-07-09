@@ -1,18 +1,23 @@
 import { useState, useEffect, useRef } from 'react'
 import Note from './components/Note'
-import Notification from './components/Notification'
 import Footer from './components/Footer'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import noteService from './services/notes'
 import loginService from './services/login'
 import NoteForm from './components/NoteForm'
+import { Alert, Nav, Navbar, Table } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const App = () => {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
+
+  const padding = {
+    padding: 20,
+  }
 
   const noteFormRef = useRef()
 
@@ -30,6 +35,12 @@ const App = () => {
       loginService.setToken(user.token)
     }
   }, [])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }, [message])
 
   const addNote = (note) => {
     noteFormRef.current.toggleVisibility()
@@ -55,11 +66,9 @@ const App = () => {
         setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)))
       })
       .catch((error) => {
-        setErrorMessage(
-          `Note '${note.content}' was already removed from server`
-        )
+        setMessage(`Note '${note.content}' was already removed from server`)
         setTimeout(() => {
-          setErrorMessage(null)
+          setMessage(null)
         }, 5000)
         setNotes(notes.filter((n) => n.id !== id))
         console.log(error)
@@ -72,18 +81,50 @@ const App = () => {
       window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user))
       loginService.setToken(user.token)
       setUser(user)
+      setMessage(`welcome ${user}`)
     } catch (error) {
-      setErrorMessage('Wrong credentials')
+      setMessage('Wrong credentials')
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 5000)
     }
   }
 
   return (
-    <div>
+    <div className="container">
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/">
+                home
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/notes">
+                notes
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/users">
+                users
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              {user ? (
+                <em style={padding}>{user} logged in</em>
+              ) : (
+                <Link style={padding} to="/login">
+                  login
+                </Link>
+              )}
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
       <h1>Notes</h1>
-      <Notification message={errorMessage} />
+      {message && <Alert variant="success">{message}</Alert>}
 
       {!user && (
         <Togglable buttonLabel="Login">
@@ -115,17 +156,20 @@ const App = () => {
           show {showAll ? 'important' : 'all'}
         </button>
       </div>
-      <ul>
-        <ul>
+      <Table striped>
+        <tbody>
           {notesToShow.map((note) => (
-            <Note
-              key={note.id}
-              note={note}
-              toggleImportance={() => toggleImportanceOf(note.id)}
-            />
+            <td key={note.id}>
+              <Note
+                key={note.id}
+                note={note}
+                toggleImportance={() => toggleImportanceOf(note.id)}
+              />
+            </td>
           ))}
-        </ul>
-      </ul>
+        </tbody>
+      </Table>
+
       <Footer />
     </div>
   )

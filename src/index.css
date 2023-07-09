@@ -17,7 +17,7 @@ body * + * {
   margin-top: 0.5rem;
 }
 
-h1 {
+/* h1 {
   font-size: 4rem;
   background: -webkit-linear-gradient(91deg, #09009f, #00ff95 50%);
   -webkit-background-clip: text;
@@ -42,7 +42,7 @@ form input {
 button {
   padding: 0.25rem 0.5rem;
   border: none;
-}
+} */
 
 .note {
   color: grey;
